@@ -1,0 +1,37 @@
+# Description
+
+This challenge was developed using an api based on nodejs, the code is compose of one endpoint that could be consulted in this ur
+http://localhost:1000/api/v1/conversions after executing the url csv file will be downloaded from to browser or postman to the local file system
+
+The problem was solved following two steps described below
+
+1. Input was converted in a more useful data structure, basically the raw data file was translated into a graph to represent in a better way the relationship between
+   currencies.
+ 
+        [CAD]
+       /  |  \
+  [EUR] [HKD] [USD]
+             /  |  \
+         [BR] [JPY] [MXN]
+
+2.  The process to find the best conversion rates is described below
+ 
+ 1. A connected/weight graph is created based on countries connection rates
+ 2. The graph is traversed using a Breath Search First aproach to calculate the conversion amount between CAD currency node and other nodes
+ 3. Each time a node is visited the currency calculation is done an acumulated in the queue used to travers de graph so next node can used it
+ 4. Each time a conversion calculation is done its result is saved in a Map that contains a key equals to source currency | target currency
+    like this (CAD|BR) and the value saved in the map is the calculated rate amount so the next time same source|target calculation shows up the existing value
+    in the Map is compare with the new calculated conversion.
+ 5. If the new calculated conversion amount is bigger than existing amount in the Map the calculated amount for the Source|Target conversion
+    in the map is replaced.
+ 6. Finally the results are formated to be returned.
+ 
+## Installation
+
+1. Install Nodejs
+2. From the root app folder run npm install
+3. Run npm run start to start the server
+
+## Usage
+
+From a browser window open the url http://localhost:1000/api/v1/conversions after that the csv file should be downloaded.
